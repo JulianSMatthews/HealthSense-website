@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HealthSense – Build a Stronger Life on Four Pillars of Wellbeing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --teal-bg: #076872;
+      --teal-dark: #03434a;
+      --offwhite: #f7f9fb;
+
+      --pillar-nutrition: #58b368; /* green */
+      --pillar-training:  #f5a623; /* orange */
+      --pillar-resilience:#eb5757; /* coral/red */
+      --pillar-recovery:  #2d9cdb; /* blue */
+
+      --text-main: #0b2d33;
+      --text-muted: #4f6b72;
+      --card-bg: #ffffff;
+      --border-soft: #e1e5ea;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.06);
+      --radius-lg: 18px;
+      --radius-xl: 26px;
+      --max-width: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: #f2f6f8;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Layout */
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--teal-bg);
+      color: white;
+      padding: 20px 24px 16px;
+    }
+
+    .header-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-circle {
+      width: 40px;
+      height: 40px;
+    }
+
+    .brand-name {
+      font-weight: 600;
+      font-size: 1.25rem;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: var(--pillar-recovery);
+      transition: width 0.2s ease-out;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .hero {
+      background: var(--teal-bg);
+      color: white;
+      padding: 40px 24px 64px;
+    }
+
+    .hero-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 3vw + 1rem, 3rem);
+      line-height: 1.12;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      max-width: 32rem;
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 24px;
+    }
+
+    .pillars-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 26px;
+    }
+
+    .pillars-tags span {
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.16);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      background: white;
+      color: var(--teal-bg);
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.22);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-radius: 999px;
+      padding: 9px 18px;
+      font-size: 0.9rem;
+      border: 1px solid rgba(255,255,255,0.5);
+      cursor: pointer;
+      color: white;
+      backdrop-filter: blur(4px);
+    }
+
+    .cta-note {
+      font-size: 0.8rem;
+      opacity: 0.75;
+      margin-top: 4px;
+    }
+
+    .hero-visual {
+      justify-self: center;
+    }
+
+    .hero-card {
+      background: rgba(3, 48, 54, 0.82);
+      border-radius: var(--radius-xl);
+      padding: 22px 22px 18px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+      max-width: 360px;
+    }
+
+    .hero-card-title {
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 10px;
+    }
+
+    .hero-pillar-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      align-items: center;
+    }
+
+    .hero-pillars-mini {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .hero-pillars-mini div {
+      border-radius: 10px;
+      padding: 8px 6px;
+      font-size: 0.7rem;
+      text-align: center;
+      color: #022226;
+      background: rgba(255,255,255,0.86);
+      font-weight: 600;
+    }
+
+    /* Common section styles */
+
+    section {
+      padding: 56px 24px;
+    }
+
+    .section-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .section-header {
+      max-width: 640px;
+      margin-bottom: 28px;
+    }
+
+    .section-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--pillar-recovery);
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      font-size: 1.7rem;
+      margin-bottom: 10px;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+
+    .three-columns {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 20px 18px 18px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-soft);
+    }
+
+    .card h3 {
+      font-size: 1.02rem;
+      margin-bottom: 6px;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Pillar cards */
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .pillar-card {
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pillar-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #053036;
+      background: rgba(241, 244, 247, 0.95);
+      margin-bottom: 6px;
+    }
+
+    .pillar-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .pillar-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .pillar-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 0.78rem;
+    }
+
+    .chip {
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: #f2f5f8;
+      color: #38545b;
+    }
+
+    /* How it works steps */
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      counter-reset: step;
+    }
+
+    .step {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 18px 16px 16px;
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: #eef5f8;
+      color: #38545b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .step h3 {
+      font-size: 0.98rem;
+      margin-bottom: 6px;
+    }
+
+    .step p {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+    }
+
+    /* CTA section */
+
+    .cta-section {
+      background: #0b3f47;
+      color: white;
+      padding: 48px 24px 56px;
+    }
+
+    .cta-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.4fr);
+      gap: 26px;
+      align-items: center;
+    }
+
+    .cta-inner h2 {
+      margin-bottom: 10px;
+    }
+
+    .cta-inner p {
+      font-size: 0.98rem;
+      opacity: 0.85;
+      margin-bottom: 18px;
+    }
+
+    .cta-panel {
+      background: rgba(3, 38, 43, 0.96);
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .cta-panel-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 6px;
+    }
+
+    .cta-panel p {
+      font-size: 0.88rem;
+      opacity: 0.85;
+    }
+
+    footer {
+      background: #021d20;
+      color: rgba(255,255,255,0.7);
+      padding: 18px 24px 22px;
+      font-size: 0.8rem;
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .footer-links a {
+      opacity: 0.8;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-visual {
+        order: -1;
+      }
+      .steps {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+      .pillars-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .cta-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .nav-links {
+        flex-wrap: wrap;
+      }
+      .three-columns {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .steps {
+        grid-template-columns: minmax(0,1fr);
+      }
+      section {
+        padding: 44px 18px;
+      }
+      .hero {
+        padding: 32px 18px 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <!-- Simple inline SVG version of the four-petal logo -->
+        <svg class="logo-circle" viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="50" r="50" fill="none" />
+          <path d="M50 50 L50 5 A45 45 0 0 1 95 50 Z" fill="var(--pillar-training)"/>
+          <path d="M50 50 L95 50 A45 45 0 0 1 50 95 Z" fill="var(--pillar-resilience)"/>
+          <path d="M50 50 L50 95 A45 45 0 0 1 5 50 Z" fill="var(--pillar-nutrition)"/>
+          <path d="M50 50 L5 50 A45 45 0 0 1 50 5 Z" fill="var(--pillar-recovery)"/>
+        </svg>
+        <div class="brand-name">HealthSense</div>
+      </div>
+      <nav class="nav-links">
+        <a href="#why">Why HealthSense</a>
+        <a href="#pillars">Four Pillars</a>
+        <a href="#how">How It Works</a>
+        <a href="#who">Who It’s For</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">Four Pillars. One Foundation.</div>
+        <h1>Build a stronger life on four pillars of wellbeing.</h1>
+        <p>
+          HealthSense unites Nutrition, Training, Resilience and Recovery into one intelligent system,
+          giving you a clear, connected view of your wellbeing and simple weekly steps to strengthen it.
+        </p>
+
+        <div class="pillars-tags">
+          <span><span class="dot" style="background:var(--pillar-nutrition)"></span>Nutrition</span>
+          <span><span class="dot" style="background:var(--pillar-training)"></span>Training</span>
+          <span><span class="dot" style="background:var(--pillar-resilience)"></span>Resilience</span>
+          <span><span class="dot" style="background:var(--pillar-recovery)"></span>Recovery</span>
+        </div>
+
+        <div class="cta-row">
+          <button class="btn-primary">Start Your Wellbeing Check-In</button>
+          <button class="btn-ghost">View How HealthSense Works</button>
+        </div>
+        <div class="cta-note">
+          No wearables needed. Just honest check-ins and clear, focused guidance.
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-card">
+          <div class="hero-card-title">Your foundation today</div>
+          <div class="hero-pillar-row">
+            <span>Overall balance</span>
+            <span>72 / 100</span>
+          </div>
+          <div class="hero-pillars-mini">
+            <div style="border-top:3px solid var(--pillar-nutrition);">Nutrition</div>
+            <div style="border-top:3px solid var(--pillar-training);">Training</div>
+            <div style="border-top:3px solid var(--pillar-resilience);">Resilience</div>
+            <div style="border-top:3px solid var(--pillar-recovery);">Recovery</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why HealthSense -->
+  <section id="why">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Why HealthSense</div>
+        <h2>Wellbeing isn’t one-dimensional. Your support shouldn’t be either.</h2>
+        <p>
+          Most apps focus on a single slice of health — food, fitness or mindfulness in isolation.
+          Progress feels fragile because the rest of your life isn’t being supported. HealthSense connects
+          your four essential pillars so your efforts actually hold together.
+        </p>
+      </div>
+
+      <div class="three-columns">
+        <div class="card">
+          <h3>Integrated, not isolated</h3>
+          <p>
+            See how changes in one pillar ripple into the others, so you can build habits that reinforce
+            each other instead of pulling you in opposite directions.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Personal, not generic</h3>
+          <p>
+            Weekly check-ins and OKRs are tailored to where you are now — your energy, time and capacity —
+            not some idealised routine.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Foundational, not faddish</h3>
+          <p>
+            HealthSense is built for long-term stability, not quick fixes. Small, focused steps each week
+            create a foundation strong enough to hold real change.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Four Pillars -->
+  <section id="pillars">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Four Pillars</div>
+        <h2>Your wellbeing foundation, in four colours.</h2>
+        <p>
+          Each petal of the HealthSense logo represents a pillar of wellbeing. Strengthen all four, and the
+          structure of your life becomes more stable, resilient and energised.
+        </p>
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-label">
+            <span class="dot" style="background:var(--pillar-nutrition)"></span>
+            Nutrition
+          </div>
+          <h3>Fuel that supports your day.</h3>
+          <p>
+            Build simple, sustainable eating habits that work with your lifestyle, not against it.
+            Understand how food affects your energy, mood and recovery.
+          </p>
+          <div class="pillar-chip-row">
+            <span class="chip">Everyday choices</span>
+            <span class="chip">Energy & mood</span>
+            <span class="chip">Sustainable habits</span>
+          </div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-label">
+            <span class="dot" style="background:var(--pillar-training)"></span>
+            Training
+          </div>
+          <h3>Movement that fits your life.</h3>
+          <p>
+            Create realistic activity patterns that you can actually maintain — whether that’s gym sessions,
+            walking, cycling or home workouts.
+          </p>
+          <div class="pillar-chip-row">
+            <span class="chip">Consistency</span>
+            <span class="chip">Strength & fitness</span>
+            <span class="chip">Avoid burnout</span>
+          </div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-label">
+            <span class="dot" style="background:var(--pillar-resilience)"></span>
+            Resilience
+          </div>
+          <h3>Emotional strength for everyday life.</h3>
+          <p>
+            Notice patterns in stress, thinking and reactions. Build practical tools that help you recover
+            faster when things feel heavy or uncertain.
+          </p>
+          <div class="pillar-chip-row">
+            <span class="chip">Stress patterns</span>
+            <span class="chip">Coping tools</span>
+            <span class="chip">Emotional balance</span>
+          </div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-label">
+            <span class="dot" style="background:var(--pillar-recovery)"></span>
+            Recovery
+          </div>
+          <h3>Rest that actually restores you.</h3>
+          <p>
+            Protect your sleep, downtime and mental space so your body and mind can reset — and your other
+            pillars can keep improving.
+          </p>
+          <div class="pillar-chip-row">
+            <span class="chip">Sleep quality</span>
+            <span class="chip">Rest routines</span>
+            <span class="chip">Recharge</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">How It Works</div>
+        <h2>A simple weekly rhythm that builds real change.</h2>
+        <p>
+          HealthSense turns reflection into action. Each week you check in, see your foundation clearly,
+          and commit to a small number of focused steps that move you forward.
+        </p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <h3>Check in across four pillars</h3>
+          <p>
+            Answer a short, structured set of questions about your Nutrition, Training, Resilience and
+            Recovery — it takes just a few minutes.
+          </p>
+        </div>
+        <div class="step">
+          <h3>See your foundation</h3>
+          <p>
+            Get a clear visual of where you’re strong, where you’re stretched, and which pillar needs
+            attention this week.
+          </p>
+        </div>
+        <div class="step">
+          <h3>Set focused OKRs</h3>
+          <p>
+            Together we define a small set of Objectives and Key Results that are realistic for the week
+            ahead, so you know exactly what to focus on.
+          </p>
+        </div>
+        <div class="step">
+          <h3>Get supportive nudges</h3>
+          <p>
+            Receive timely messages that help you adapt when life changes, celebrate progress and learn from
+            the weeks that don’t go to plan.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who it's for / Why it works -->
+  <section id="who">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Who It’s For</div>
+        <h2>Designed for real people, not perfect routines.</h2>
+        <p>
+          HealthSense is for anyone who wants to feel steadier, stronger and more in control — without
+          turning wellbeing into a second job.
+        </p>
+      </div>
+
+      <div class="three-columns">
+        <div class="card">
+          <h3>Busy professionals</h3>
+          <p>
+            Build stability around work, family and everything else that matters, even when time and energy
+            are tight.
+          </p>
+        </div>
+        <div class="card">
+          <h3>People rebuilding</h3>
+          <p>
+            After burnout, illness or a tough season, create a foundation that lets you come back steadily
+            instead of all at once.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Anyone wanting a fuller picture</h3>
+          <p>
+            If you’ve ever thought “I can get one area right, but something else falls apart”, HealthSense is
+            built for you.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <div>
+        <h2>Ready to strengthen your four pillars?</h2>
+        <p>
+          Start with your first check-in and discover where your foundation is strong, where it’s under
+          pressure, and what to focus on this week — across Nutrition, Training, Resilience and Recovery.
+        </p>
+        <div class="cta-row">
+          <button class="btn-primary">Start Your First Check-In</button>
+          <button class="btn-ghost">Join the Early Access List</button>
+        </div>
+      </div>
+      <div class="cta-panel">
+        <div class="cta-panel-label">Foundations, not quick fixes</div>
+        <p>
+          HealthSense is part of <strong>CoachSense Group Limited</strong>. Our mission is to help people
+          build stronger lives by supporting the whole structure of wellbeing, not just one pillar at a time.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        © <span id="year"></span> HealthSense. A trading name of CoachSense Group Limited.
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // Set current year in footer
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
